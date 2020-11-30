@@ -3,6 +3,10 @@
 #define true 1;
 #define false 0;
 
+/*
+    Grafo direcionado utilizando lista de adjacencia
+*/
+
 typedef struct adjacencia{
     int vertice;
     struct adjacencia *next;
