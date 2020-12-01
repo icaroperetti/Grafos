@@ -75,7 +75,7 @@ int main(){
    printf("Digite numero de vertices:");
    scanf("%d",&nv);
 
-   int grafo = criaMatriz(nv);
+   int **grafo = criaMatriz(nv);
 
    zeraMatriz(grafo,nv);
    adicionaAresta(grafo,nv);
