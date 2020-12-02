@@ -16,7 +16,7 @@ class Grafo
 		//Prototipação das funcoes
 		int addEdge(list<int> adj[]); 
 		void printGraph(list<int> adj[], int V);
-		bool neighborExists(list<int> adj[],int vi,int vf);
+		bool neighborExists(list<int> adj[],int v1,int v2);
 		int exitDegree(list<int>adj[],int V);
 };
 
@@ -70,18 +70,21 @@ void Grafo::printGraph(list<int> adj[], int V)
 {
 	for (int i = 0; i < V; ++i)
 	{
-		cout << "\nVertice "
-				 << i << ":";
+		cout << "\nVertice " << i << ":";
 		for (int x : adj[i])
+		{
 			cout << "-> " << x;
-		printf("\n");
+		}	
+	
 	}
 }
 
-bool Grafo::neighborExists(list<int> adj[],int vi,int vf)
+bool Grafo::neighborExists(list<int> adj[],int v1,int v2)
 {
-	if (find(adj[vi].begin(), adj[vi].end(), vf) != adj[vi].end())
-	{
+	//Faz uma busca do vertice v2 na lista de vertices de v1 
+	if (find(adj[v1].begin(), adj[v1].end(), v2) != adj[v1].end())
+	{	
+		//Se encontrar retorna true
 		return true;
 	}
 	return false;
@@ -101,7 +104,7 @@ int main() {
 	grafo.addEdge(adj);
 	grafo.printGraph(adj, V);
 
-	cout<< "Grau de saida do vertice 1:" << grafo.exitDegree(adj,1);
+	cout<< "\nGrau de saida do vertice 1:" << grafo.exitDegree(adj,1);
 	cout<< "\nGrau de saida do vertice 2:" << grafo.exitDegree(adj,2);
 	cout<< "\nGrau de saida do vertice 3:" << grafo.exitDegree(adj,3);
 
