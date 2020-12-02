@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #include <iostream>
-#include <list> //lib para usar list
-#include <algorithm> //lib para usar funcao find
+#include <list>
+#include <algorithm>
 
 using namespace std;
 
@@ -17,6 +17,7 @@ class Grafo
 		int addEdge(list<int> adj[]); 
 		void printGraph(list<int> adj[], int V);
 		bool neighborExists(list<int> adj[],int vi,int vf);
+		int exitDegree(list<int>adj[],int V);
 };
 
 Grafo::Grafo(int V)
@@ -25,7 +26,7 @@ Grafo::Grafo(int V)
 	adj = new list<int>[V];
 }
 
-// Add edge
+//Adicionar arestas
 int Grafo::addEdge(list<int> adj[])
 {
 	int vi, vf;
@@ -40,33 +41,41 @@ int Grafo::addEdge(list<int> adj[])
 
 		if (vi < 0 || vi >= Grafo::V)
 		{
-			cout << "Vertice de partida invalido";
-			return false;
-		}
-		if (vf < 0 || vf >= Grafo::V)
-		{
-			cout << "Vertice de chegada invalido";
 			return false;
 		}
 
-		//Função pronta do C++ que adiciona uma lista ao final da outra
+		if (vf < 0 || vf >= Grafo::V)
+		{
+			return false;
+		}
+
+		//Função existente no C++ que adiciona uma lista ao final da outra
 		adj[vi].push_back(vf);
 
 		cout << "Digite o vertice de partida:";
 		cin >> vi;
 	}
-	
+	return 0;
 }
 
-// Print the graph
-void Grafo::printGraph(list<int> adj[], int V) {
-  for (int i = 0; i < V; ++i) {
-    cout << "\n Vertice "
-       << i << ":";
-    for (int x : adj[i])
-      cout << "-> " << x;
-    printf("\n");
-  }
+//Para obter o grau de saida de um vertice, basta 
+//retornar o tamanho da lista do vertice V
+int Grafo::exitDegree(list<int>adj[],int V)
+{
+	return adj[V].size();
+}
+
+//Imprime o grafo
+void Grafo::printGraph(list<int> adj[], int V)
+{
+	for (int i = 0; i < V; ++i)
+	{
+		cout << "\nVertice "
+				 << i << ":";
+		for (int x : adj[i])
+			cout << "-> " << x;
+		printf("\n");
+	}
 }
 
 bool Grafo::neighborExists(list<int> adj[],int vi,int vf)
@@ -88,9 +97,13 @@ int main() {
   
  	list<int>adj[V]; //Cria uma lista de vertices de com o tamanho do grafo
 
-  // Add edges
-  grafo.addEdge(adj);
-  grafo.printGraph(adj,V);
+  	//Adiciona as arestas
+	grafo.addEdge(adj);
+	grafo.printGraph(adj, V);
+
+	cout<< "Grau de saida do vertice 1:" << grafo.exitDegree(adj,1);
+	cout<< "\nGrau de saida do vertice 2:" << grafo.exitDegree(adj,2);
+	cout<< "\nGrau de saida do vertice 3:" << grafo.exitDegree(adj,3);
 
 	if(grafo.neighborExists(adj,1,2))
 	{
@@ -99,9 +112,15 @@ int main() {
 
 	if(grafo.neighborExists(adj,2,1))
 	{
-		cout << "2 e vizinho de 1\n";
+		cout << "\n2 e vizinho de 1\n";
 	}else{
 		cout << "2 nao e vizinho de 1\n";
 	}
-	
+
+	if(grafo.neighborExists(adj,0,1))
+	{
+		cout << "\n0 e vizinho de 1\n";
+	}else{
+		cout << "0 nao e vizinho de 1\n";
+	}
 }
