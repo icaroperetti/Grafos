@@ -1,103 +1,107 @@
+#include <bits/stdc++.h>
 #include <iostream>
-#include <list>
-#include <algorithm>
-
-/*
-	Algoritmo para representação de grafos direcionados (digrafos)
-*/
+#include <list> //lib para usar list
+#include <algorithm> //lib para usar funcao find
 
 using namespace std;
 
 class Grafo
 {
-	int v; //Numero de vertices
+	int V; //Numero de vertices 
 	list<int> *adj; //Ponteiro para um array contendo as listas de adjacencias
-	
+
 	public:
-		Grafo(int v); //Construtor
-		void adicionarAresta(int v1,int v2); //Adiciona aresta no grafo, conecta v1 com v2 
-		
-		//Obtem o grau de saida de um vertice (nodo)
-		//numero de arestas que saem de V
-		int obterGrauSaida(int v);
-		
-		//Verifica se um vertice é vizinho de outro
-		bool existeVizinho(int v1,int v2); //Verifica se v2 é vizinho de v1
+		Grafo(int V); //Construtor 
+
+		//Prototipação das funcoes
+		int addEdge(list<int> adj[]); 
+		void printGraph(list<int> adj[], int V);
+		bool neighborExists(list<int> adj[],int vi,int vf);
 };
 
-Grafo::Grafo(int v)
+Grafo::Grafo(int V)
 {
-	this->v = v; //atribui o numero de vertices 
-	adj = new list<int>[v]; //Cria as listas, cada vértice possui uma lista
+	this->V = V;
+	adj = new list<int>[V];
 }
 
-void Grafo::adicionarAresta(int v1,int v2)
+// Add edge
+int Grafo::addEdge(list<int> adj[])
 {
-	//adicionar vertice v2 a lista de vertices adjacentes de v1
-	adj[v1].push_back(v2);
+	int vi, vf;
+	cout << "Digite um numero negativo para finalizar e imprimir\n\n";
+	cout << "Digite o vertice de partida:";
+	cin >> vi;
+
+	while (vi > -1)
+	{
+		cout << "Digite o vertice de chegada:";
+		cin >> vf;
+
+		if (vi < 0 || vi >= Grafo::V)
+		{
+			cout << "Vertice de partida invalido";
+			return false;
+		}
+		if (vf < 0 || vf >= Grafo::V)
+		{
+			cout << "Vertice de chegada invalido";
+			return false;
+		}
+
+		//Função pronta do C++ que adiciona uma lista ao final da outra
+		adj[vi].push_back(vf);
+
+		cout << "Digite o vertice de partida:";
+		cin >> vi;
+	}
+	
 }
 
-int Grafo::obterGrauSaida(int v)
-{
-	//Basta retornar o tamanho da lista que e a quantidade de vizinhos
-	return adj[v].size();
+// Print the graph
+void Grafo::printGraph(list<int> adj[], int V) {
+  for (int i = 0; i < V; ++i) {
+    cout << "\n Vertice "
+       << i << ":";
+    for (int x : adj[i])
+      cout << "-> " << x;
+    printf("\n");
+  }
 }
 
-bool Grafo::existeVizinho(int v1,int v2)
+bool Grafo::neighborExists(list<int> adj[],int vi,int vf)
 {
-	if(find(adj[v1].begin(),adj[v1].end(),v2) != adj[v1].end())
+	if (find(adj[vi].begin(), adj[vi].end(), vf) != adj[vi].end())
 	{
 		return true;
 	}
 	return false;
 }
 
+int main() {
+  int V;
+  cout << "Digite o número de vertices:";
+  cin >> V;
 
+  //Constroi o grafo
+  Grafo grafo(V);
+  
+ 	list<int>adj[V]; //Cria uma lista de vertices de com o tamanho do grafo
 
-int main()
-{
-	//Cria um grafo com 4 vertices
-	Grafo grafo(4);
+  // Add edges
+  grafo.addEdge(adj);
+  grafo.printGraph(adj,V);
+
+	if(grafo.neighborExists(adj,1,2))
+	{
+		cout << "\n1 e vizinho de 2\n";
+	}
+
+	if(grafo.neighborExists(adj,2,1))
+	{
+		cout << "2 e vizinho de 1\n";
+	}else{
+		cout << "2 nao e vizinho de 1\n";
+	}
 	
-	grafo.adicionarAresta(0,1);
-	grafo.adicionarAresta(0,3);
-	grafo.adicionarAresta(1,2);
-	grafo.adicionarAresta(3,1);
-	grafo.adicionarAresta(3,2);
-	
-	cout << "Grau de saida do vertice 1: " << grafo.obterGrauSaida(1);
-	cout << "\nGrau de saida do vertice 3: " << grafo.obterGrauSaida(3);
-	cout << "\nGrau de saida do vertice 0: " << grafo.obterGrauSaida(0);
-	
-	//Verifica se existe vizinho
-	if(grafo.existeVizinho(0,1))
-	{
-		cout << "\n1 e vizinho de 0\n";
-	}
-	else 
-	{
-		cout << "1 nao e vizinho de 0";
-	}
-
-	if(grafo.existeVizinho(1,0))
-	{
-		cout << "\n0 e vizinho de 1\n";
-	}
-	else
-	{
-		cout << "0 nao e vizinho de 1\n";
-	}
-
-	
-	if(grafo.existeVizinho(2,0))
-	{
-		cout << "\n2 e vizinho de 0\n";
-	}
-	else
-	{
-		cout << "2 nao e vizinho de 0\n";
-	}
-
-
-	return 0;
 }
