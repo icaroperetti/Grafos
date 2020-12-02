@@ -1,10 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*
-   Grafo direcionado com matriz 
-*/
-
 int **criaMatriz(int nv)
 {
    //1 ponteiro permite criar um vetor, 2 ponteiros permitem criar uma matriz (vetor para vetor)
@@ -30,7 +26,7 @@ void zeraMatriz(int **grafo, int nv)
       for (j = 0; j < nv; j++)
       {
          grafo[i][j] = 0;
-         printf("[%d][%d]= %d \t", i, j, grafo[i][j]);
+         printf("%d  ",grafo[i][j]);
       }
       printf("\n");
    }
@@ -38,17 +34,19 @@ void zeraMatriz(int **grafo, int nv)
 
 void adicionaAresta(int** grafo,int nv){
    int vi,vf,peso;
+
    printf("\n Digite um valor negativo para finalizar e imprimir\n");
-   printf("Vertice de partida(valores entre 0 e %d): ",nv);
+   printf("Vertice de partida(valores entre 0 e %d): ",nv - 1 );
    scanf("%d", &vi);
-   while (vi > -1)
+
+   while (vi > -1 && vi < nv)
    {
-      printf("Vertice de chegada(valores entre 0 e %d): ",nv);
+      printf("Vertice de chegada(valores entre 0 e %d): ",nv - 1);
       scanf("%d", &vf);
 
       printf("Digite um valor associado a essa relacao:");
       scanf("%d",&peso);
-
+      
       if (vf < 0 || vf >= nv)
       { 
          return 0;
@@ -58,7 +56,7 @@ void adicionaAresta(int** grafo,int nv){
       //Se quiser transformar em um vertice nao direcionado
       //grafo[vf][vi] = peso;
 
-      printf("\nVertice de partida(valores entre 0 e %d): ",nv);
+      printf("\nVertice de partida(valores entre 0 e %d): ",nv - 1);
       scanf("%d", &vi);
    }
 }
@@ -66,13 +64,38 @@ void adicionaAresta(int** grafo,int nv){
 void imprimir(int **grafo, int nv)
 {
    int i, j;
+   for(i= 0; i < nv;i++){
+      printf("  %d  ",i);
+   }
+   printf("\n");
    for (i = 0; i < nv; i++)
    {
+      printf("%d  ",i);
       for (j = 0; j < nv; j++)
       {
-         printf("[%d][%d]= %d \t", i, j, grafo[i][j]);
+         
+         printf(" %d  ",grafo[i][j]);
       }
       printf("\n");
+   }
+}
+
+void removerAresta(int** grafo,int nv)
+{
+   int vi,vf,i,j;
+   printf("\n Digite um valor negativo para finalizar e imprimir\n");
+   printf("Digite o vertice de saida da aresta que deseja remover:");
+   scanf("%d",&vi);
+
+   while (vi > -1 && vi < nv)
+   {
+      printf("Digite o vertice de chegada da aresta que deseja remover:");
+      scanf("%d",&vf);
+
+      grafo[vi][vf] = 0;
+
+      printf("Digite o vertice de saida da aresta que deseja remover:");
+      scanf("%d", &vi);
    }
 }
 
@@ -98,6 +121,8 @@ int main()
    adicionaAresta(grafo, nv);
    imprimir(grafo, nv);
 
+   removerAresta(grafo,nv);
+   imprimir(grafo, nv);
    liberarMemoria(grafo, nv);
    return 0;
 }
