@@ -1,6 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+/*
+   Grafo direcionado com matriz 
+*/
+
 int **criaMatriz(int nv)
 {
    //1 ponteiro permite criar um vetor, 2 ponteiros permitem criar uma matriz (vetor para vetor)
@@ -77,9 +81,9 @@ void liberarMemoria(int **grafo, int nv)
    int i;
    for (i = 0; i < nv; i++)
    {
-      free(grafo[i]); //Libera as linhas
+      free(grafo[i]); //Libera as linhas de cada coluna
    }
-   free(grafo); //Libera a matriz;
+   free(grafo); //Libera a coluna;
 }
 
 int main()
