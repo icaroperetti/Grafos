@@ -34,7 +34,7 @@ int Grafo::addEdge(list<int> adj[])
 	cout << "Digite o vertice de partida:";
 	cin >> vi;
 
-	while (vi > -1)
+	while (vi > -1 && vi < vf)
 	{
 		cout << "Digite o vertice de chegada:";
 		cin >> vf;
@@ -59,7 +59,7 @@ int Grafo::addEdge(list<int> adj[])
 }
 
 //Para obter o grau de saida de um vertice, basta 
-//retornar o tamanho da lista do vertice V
+//retornar o tamanho da lista do vertice 
 int Grafo::exitDegree(list<int>adj[],int V)
 {
 	return adj[V].size();
@@ -81,11 +81,10 @@ void Grafo::printGraph(list<int> adj[], int V)
 bool Grafo::neighborExists(list<int> adj[],int v1,int v2)
 {
 	//Faz uma busca do vertice v2 na lista de vertices de v1 
-	//Se o find for igual ao significa que percorreu toda a lista e não encontrou o elemento
-	//Se for diferente do final significa que ele percorreu a lista e encontrou o elemento
+	//Se o find for igual ao end() significa que percorreu toda a lista e não encontrou o elemento
+	//Se for diferente do final significa que ele percorreu a lista e encontrou o elemento em alguma posição
 	if (find(adj[v1].begin(), adj[v1].end(), v2) != adj[v1].end())
 	{	
-		
 		return true;
 	}
 	return false;
